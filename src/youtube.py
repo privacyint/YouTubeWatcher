@@ -26,8 +26,8 @@ def watch_current_video(driver: WebDriver, max_time: int = 420) -> None:
     )
     start_time = time.time()
     logging.info("Started watching")
-    current_time_elem = driver.find_element_by_css_selector("span.ytp-time-current")
-    duration_time_elem = driver.find_element_by_css_selector("span.ytp-time-duration")
+    current_time_elem = driver.find_element(By.CSS_SELECTOR, "span.ytp-time-current")
+    duration_time_elem = driver.find_element(By.CSS_SELECTOR, "span.ytp-time-duration")
 
     # The watch next video button gets created later I guess ¯\_(ツ)_/¯
     up_next_button_elem = None
@@ -57,7 +57,7 @@ def watch_current_video(driver: WebDriver, max_time: int = 420) -> None:
                 if up_next_button_elem.is_displayed():
                     break
             else:
-                up_next_button_elem = driver.find_element_by_class_name("ytp-autonav-endscreen-upnext-button")
+                up_next_button_elem = driver.find_element(By.CLASS_NAME, "ytp-autonav-endscreen-upnext-button")
         except:
             # The next button is created lazily, so sometimes its missing
             logging.warning("No next button found while watching video")
@@ -91,7 +91,7 @@ def close_privacy_popup(driver: WebDriver) -> None:
 def is_livestream(video_element: WebElement) -> bool:
     """Checks if the given video_element is a livestream instead of a regular video"""
     try:
-        badge = video_element.find_element_by_xpath("div[1]/div/ytd-badge-supported-renderer/div[1]/span")
+        badge = video_element.find_element(By.XPATH, "div[1]/div/ytd-badge-supported-renderer/div[1]/span")
         return badge.get_attribute("innerText") == "LIVE NOW"
     except:
         return False
@@ -110,7 +110,7 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
     WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, "ytd-video-renderer")))
 
     # Get all results
-    video_title_elems = driver.find_elements_by_tag_name("ytd-video-renderer")
+    video_title_elems = driver.find_elements(By.TAG_NAME, "ytd-video-renderer")
     videos = []
     for element in video_title_elems:
         if not is_livestream(element):
@@ -129,7 +129,7 @@ def get_video_suggestions(driver: WebDriver, suggestion_count: int = 1) -> List[
         )
     )
 
-    yt_app = driver.find_element_by_tag_name("ytd-app")
+    yt_app = driver.find_element(By.TAG_NAME, "ytd-app")
 
     suggestions = []
     prev_suggestion_count = -1
@@ -148,7 +148,7 @@ def get_video_suggestions(driver: WebDriver, suggestion_count: int = 1) -> List[
             logging.warning("Suggestion scroller failed to detect spinner")
         prev_suggestion_count = len(suggestions)
         # Suggestions are not recycled, the total amount of elements is accurate
-        suggestions = driver.find_elements_by_css_selector(
+        suggestions = driver.find_elements(By.CSS_SELECTOR,
             "ytd-compact-video-renderer.ytd-watch-next-secondary-results-renderer"
         )
 
@@ -165,12 +165,12 @@ def get_channel_videos(driver: WebDriver, channel_url: str) -> List[ClickableVid
     driver.get(f"{channel_url}/videos")
     # Wait for results page to load
     WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, "ytd-grid-video-renderer")))
-    channel_name = driver.find_element_by_css_selector(
+    channel_name = driver.find_element(By.CSS_SELECTOR,
         "ytd-channel-name.ytd-c4-tabbed-header-renderer > div:nth-child(1) > div:nth-child(1) > "
         "yt-formatted-string:nth-child(1) "
     ).text
     # Get all results
-    video_title_elems = driver.find_elements_by_tag_name("ytd-grid-video-renderer")
+    video_title_elems = driver.find_elements(By.TAG_NAME, "ytd-grid-video-renderer")
     videos = []
     for element in video_title_elems:
         if not is_livestream(element):
