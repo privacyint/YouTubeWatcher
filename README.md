@@ -28,6 +28,11 @@
         <a href="https://github.com/ContentAutomation/TwitchCompilationCreator">Twitch Compilation Creator</a>,
         <a href="https://github.com/ContentAutomation/NeuralNetworks">Neural Networks</a>
     </i>
+   <br />
+    <i><b>Adapted for PI by</b>:
+        <a href="https://github.com/EdGeraghty">Ed Geraghty</a>
+    </i>
+
 </p>
 
 <hr />
