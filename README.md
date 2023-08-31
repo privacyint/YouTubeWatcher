@@ -39,9 +39,7 @@
 
 ## About
 
-Searches YouTube, queries recommended videos and watches them. All fully automated and anonymised through the [Tor network](https://www.torproject.org/). The project consists of two independently usable components, the YouTube automation written in Python and the dockerized Tor Browser.
-
-**This project is for educational purposes only. Using Tor to watch YouTube videos is strongly discouraged, especially for Botting purposes. Please [inform yourself about the Tor network](https://2019.www.torproject.org/docs/faq.html.en), before using it extensively.**
+Searches YouTube, queries recommended videos and watches them. All fully automated. The project consists of two independently usable components, the YouTube automation written in Python and the dockerized Firefox Browser.
 
 ## Setup
 
@@ -58,7 +56,7 @@ Make sure you have installed [Python](https://www.python.org/downloads/) 3.8! Ot
 4. Either run the dockerized Browser with `docker-compose up`, install [geckodriver](https://github.com/mozilla/geckodriver/releases) for a local Firefox or [ChromeDriver](https://chromedriver.chromium.org/downloads) for Chromium. Ensure that geckodriver/ChromeDriver are in a location in your `$PATH`.
 5. Run ```poetry run python main.py``` to run the program. Alternatively you can run ```poetry shell``` followed by ```python main.py```. By default this connects to the dockerized Browser. To automate a different Browser use the `--browser [chrome/firefox]` command line option.
 
-### Dockerized Tor Browser
+### Dockerized Firefox Browser
 
 Running the Container requires [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/).
 
@@ -87,11 +85,8 @@ optional arguments:
   -h, --help            show this help message and exit
   -B {docker,chrome,firefox}, --browser {docker,chrome,firefox}
                         Select the driver/browser to use for executing the script.
-  -t, --enable-tor      Enables Tor usage by connecting to a proxy on localhost:9050. Only usable with the docker
-                        executor.
-  --disable-tor         Disables the Tor proxy.
   -s SEARCH_TERMS, --search-terms SEARCH_TERMS
                         This argument declares a list of search terms which get viewed.
   -c CHANNEL_URL, --channel-url CHANNEL_URL
-                        Channel URL if not declared it uses Golden Gorillas channel URL as default.
+                        Channel URL if not declared it uses Privacy International's channel URL as default.
 ```
