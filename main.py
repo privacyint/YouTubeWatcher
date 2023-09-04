@@ -7,7 +7,7 @@ from selenium.common.exceptions import TimeoutException
 
 from src.docker_firefox import get_current_ip
 from src.watch_strategy import watch_strategy
-from src.youtube import close_privacy_popup
+from src.youtube import close_cookie_popup
 
 
 def main():
@@ -38,7 +38,7 @@ def main():
         while True:
             try:
                 # Consent to YouTube's cookies
-                close_privacy_popup(driver)
+                close_cookie_popup(driver)
                 watch_strategy(driver, args.search_terms, args.channel_url, duration=60)
             except TimeoutException:
                 logging.warning("Probably getting a Captcha because of blocked IP, restarting Docker")

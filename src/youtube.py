@@ -68,24 +68,16 @@ def watch_current_video(driver: WebDriver, max_time: int = 420) -> None:
     logging.info("finished watching video")
 
 
-def close_privacy_popup(driver: WebDriver) -> None:
-    """YouTube shows a cookie/privacy disclaimer on the first visit which prevents any other action.
-    This functions sets the CONSENT cookie before visiting YouTube.
-    """
-    # To set cookies we need to visit the domain first. To avoid visiting the real website too early, we use robots.txt
-    # Originally for web crawlers, but serves as a plain page for any domain.
-    # https://en.wikipedia.org/wiki/Robots_exclusion_standard
-    driver.get("https://www.youtube.com/robots.txt")
-    driver.add_cookie({"name": "CONSENT", "value": "YES+US.en", "secure": True})
-    # YouTube will ask if the user wants to sign in on the first visit, clicking no thanks is easy enough
+def close_cookie_popup(driver: WebDriver) -> None:
+    """Closes the annoying cookie modal so we can interact with YouTube"""
     driver.get("https://www.youtube.com/")
     try:
-        no_thanks_btn = WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, 'tp-yt-paper-button[aria-label^="No"][aria-label$="thanks"]'))
+        reject_all_btn = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label^="Reject"]'))
         )
-        no_thanks_btn.click()
+        reject_all_btn.click()
     except:
-        logging.warning("No login pop up found by close_privacy_popup")
+        logging.warning("No cookie pop up found by close_privacy_popup")
 
 
 def is_livestream(video_element: WebElement) -> bool:
