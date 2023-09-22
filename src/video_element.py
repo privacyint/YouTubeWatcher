@@ -21,7 +21,9 @@ class ClickableVideoElement:
         self.channel_name: str = None
         self.channel_url: Union[str, None] = None
         self.element = video_element
-        if video_element.tag_name == "ytd-video-renderer":
+        if video_element.tag_name == "ytd-rich-item-renderer":
+            self._parse_rich_item_render_elem(video_element, channel_name)
+        elif video_element.tag_name == "ytd-video-renderer":
             self._parse_vid_render_elem(video_element)
         elif video_element.tag_name == "ytd-compact-video-renderer":
             self._parse_compact_render_elem(video_element)
@@ -29,6 +31,13 @@ class ClickableVideoElement:
             self._parse_grid_render_elem(video_element, channel_name)
         else:
             raise NotImplementedError(f"Unknown video element type: {video_element.tag_name}")
+
+    def _parse_rich_item_render_elem(self, video_element: WebElement, channel_name: str):
+        title_label = video_element.find_element(By.CSS_SELECTOR, "a#video-title-link")
+        self.title = title_label.get_attribute("title")
+        self.url = title_label.get_attribute("href")
+        self.channel_name = channel_name
+        self.channel_url = None
 
     def _parse_vid_render_elem(self, video_element: WebElement):
         title_label = video_element.find_element(By.CSS_SELECTOR, "a#video-title")
