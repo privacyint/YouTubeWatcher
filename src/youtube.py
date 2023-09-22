@@ -154,17 +154,23 @@ def get_video_suggestions(driver: WebDriver, suggestion_count: int = 1) -> List[
 
 def get_channel_videos(driver: WebDriver, channel_url: str) -> List[ClickableVideoElement]:
     """ Navigates to channel_url and gets videos from the channel page. """
-    driver.get(f"{channel_url}/videos")
-    # Wait for results page to load
-    WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, "ytd-grid-video-renderer")))
-    channel_name = driver.find_element(By.CSS_SELECTOR,
-        "ytd-channel-name.ytd-c4-tabbed-header-renderer > div:nth-child(1) > div:nth-child(1) > "
-        "yt-formatted-string:nth-child(1) "
-    ).text
+    try:
+        driver.get(f"{channel_url}/videos")
+        # Wait for results page to load
+        WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, "ytd-rich-item-renderer")))
+        channel_name = driver.find_element(By.CSS_SELECTOR,
+            "ytd-channel-name.ytd-c4-tabbed-header-renderer > div:nth-child(1) > div:nth-child(1) > "
+            "yt-formatted-string:nth-child(1) "
+        ).text
+        time.sleep(5)
     # Get all results
-    video_title_elems = driver.find_elements(By.TAG_NAME, "ytd-grid-video-renderer")
-    videos = []
-    for element in video_title_elems:
-        if not is_livestream(element):
-            videos.append(ClickableVideoElement(element, channel_name))
-    return videos
+        video_title_elems = driver.find_elements(By.TAG_NAME, "ytd-rich-item-renderer")
+        logging.info(f"Found {len(video_title_elems)} videos on {channel_name}")
+        time.sleep(5)
+        videos = []
+        for element in video_title_elems:
+            if not is_livestream(element):
+                videos.append(ClickableVideoElement(element, channel_name))
+        return videos
+    except:
+        logging.error("I was unable to retrieve any videos from the channel")
