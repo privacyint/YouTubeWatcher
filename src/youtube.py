@@ -76,6 +76,7 @@ def close_cookie_popup(driver: WebDriver) -> None:
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label^="Reject"]'))
         )
         reject_all_btn.click()
+        logging.info("Rejected all cookies")
     except:
         logging.warning("No cookie pop up found by close_privacy_popup")
 
