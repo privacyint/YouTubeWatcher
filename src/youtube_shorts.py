@@ -13,7 +13,7 @@ from src.video_element import ClickableVideoElement
 
 
 def watch_current_video(driver: WebDriver, max_time: int = 420) -> None:
-    """Watches the YouTube video on the currently selected page.
+    """Watches the YouTube short video on the currently selected page.
     Arguments:
     driver - The webdriver, it has to be navigated to a YouTube video before calling this function.
     with_progress - If true, periodically print the watch progress.
