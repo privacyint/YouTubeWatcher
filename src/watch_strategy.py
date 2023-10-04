@@ -26,8 +26,8 @@ def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):
     return random.choice(
         [
             # Pick a random video from the channel
-            random.choice(get_channel_videos(driver, channel_url)),
+            #random.choice(get_channel_videos(driver, channel_url)),
             # Pick a random video from a random search term
-            #random.choice(do_search(driver, random.choice(search_terms))),
+            random.choice(do_search(driver, random.choice(search_terms))),
         ]
     )
