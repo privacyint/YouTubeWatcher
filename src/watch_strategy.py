@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.youtube import do_search, get_channel_videos, watch_current_video
+from src.youtube_shorts import do_search, get_channel_videos, watch_current_video
 
 
 def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, duration: int = 60):
