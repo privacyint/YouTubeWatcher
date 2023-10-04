@@ -21,8 +21,8 @@ def watch_current_video(driver: WebDriver, max_time: int = 420) -> None:
     """
 
     # Wait for YouTube to finish loading the player
-    player_div = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "div#player.ytd-watch-flexy"))
+    player_div = WebDriverWait(driver, 20, 1).until(
     )
     start_time = time.time()
     logging.info("Started watching")
