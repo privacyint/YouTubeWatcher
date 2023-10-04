@@ -96,12 +96,14 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
     videos = []
 
     try:
+        time.sleep(5)
         # Input the search term and confirm
         search_box = WebDriverWait(driver, 20, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input#search")))
         assert "Search" in search_box.get_attribute("placeholder")
         search_box.clear()
         search_box.send_keys(search_term)
-        WebDriverWait(driver, 20).until(
+        time.sleep(3)
+        WebDriverWait(driver, 20, 1).until(
             EC.element_to_be_clickable((By.ID, 'search-icon-legacy'))
         ).click()
     except:
@@ -109,6 +111,7 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
         exit(1)
 
     try:
+        time.sleep(5)
         # Wait for results page to load with a clickable "shorts" filter
         WebDriverWait(driver, 20, 1).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, 'yt-chip-cloud-chip-renderer.style-scope:nth-child(2) > yt-formatted-string:nth-child(1)'))
@@ -118,6 +121,7 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
         exit(1)
 
     try:
+        time.sleep(5)
         # Wait until they're rendered, then get all results
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, "ytd-video-renderer")))
         video_title_elems = driver.find_elements(By.TAG_NAME, "ytd-video-renderer")
