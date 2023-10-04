@@ -114,7 +114,7 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
         time.sleep(5)
         # Wait for results page to load with a clickable "shorts" filter
         WebDriverWait(driver, 20, 1).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, 'yt-chip-cloud-chip-renderer.style-scope:nth-child(2) > yt-formatted-string:nth-child(1)'))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'yt-chip-cloud-chip-renderer.yt-chip-cloud-renderer:nth-child(2) > yt-formatted-string:nth-child(1)'))
         ).click()
     except:
         logging.warning("Couldn't click the shorts filter button")
