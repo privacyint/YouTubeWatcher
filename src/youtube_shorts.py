@@ -62,7 +62,7 @@ def watch_current_video(driver: WebDriver, max_time: int = 420) -> None:
             # The next button is created lazily, so sometimes its missing
             logging.warning("No next button found while watching video")
 
-        if time.time() - start_time >= max_time:
+        if (time.time() - start_time) >= max_time:
             break
 
     logging.info("finished watching video")
