@@ -24,6 +24,7 @@ def watch_current_video(driver: WebDriver, max_time: int = 420) -> None:
     player_div = WebDriverWait(driver, 20, 1).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "span.ytp-large-play-button"))
     )
+    player_div.click()
     start_time = time.time()
     logging.info("Started watching")
     current_time_elem = driver.find_element(By.CSS_SELECTOR, "span.ytp-time-current")
