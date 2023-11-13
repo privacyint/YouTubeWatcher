@@ -18,11 +18,9 @@ def main():
     args = parser.parse_args()
 
     if args.browser == "docker":
-        options = get_firefox_config().to_capabilities()
-
         driver = webdriver.Remote(
             command_executor="http://127.0.0.1:4444/wd/hub",
-            desired_capabilities=options,
+            options=get_firefox_config(),
         )
     elif args.browser == "firefox":
         driver = webdriver.Firefox(options=get_firefox_config())
