@@ -97,6 +97,8 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
 
     try:
         time.sleep(5)
+        logging.info(f'Searching for {search_term}')
+
         # Input the search term and confirm
         search_box = WebDriverWait(driver, 20, 1).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input#search")))
         assert "Search" in search_box.get_attribute("placeholder")
@@ -131,6 +133,8 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
                 videos.append(ClickableVideoElement(element))
     except:
         exit(1)
+
+    logging.info(f'Got the following videos: {videos}')
 
     return videos
 
