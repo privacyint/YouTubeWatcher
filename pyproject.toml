@@ -6,7 +6,7 @@ authors = ["Christian C., Moritz M., Luca S."]
 
 [tool.poetry.dependencies]
 python = "~=3.8"
-selenium = "~=3.141.0"
+selenium = ">4.9"
 docker = "~=4.3.0"
 
 [tool.poetry.dev-dependencies]
