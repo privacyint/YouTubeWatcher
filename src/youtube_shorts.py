@@ -79,7 +79,7 @@ def close_cookie_popup(driver: WebDriver) -> None:
         reject_all_btn.click()
         logging.info("Rejected all cookies")
     except:
-        logging.warning("No cookie pop up found by close_privacy_popup")
+        logging.info("No cookie pop up found by close_privacy_popup")
 
 
 def is_livestream(video_element: WebElement) -> bool:
