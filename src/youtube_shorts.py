@@ -134,7 +134,7 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
     except:
         exit(1)
 
-    logging.info(f'Got the following videos: {videos}')
+    logging.info(f'Got {len(videos)} results returned')
 
     return videos
 
