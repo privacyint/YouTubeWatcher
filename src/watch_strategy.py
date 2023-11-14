@@ -3,10 +3,11 @@ import random
 import time
 from datetime import datetime, timedelta
 
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common import keys
+from selenium.webdriver import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from src.youtube_shorts import do_search, get_channel_videos, watch_current_video
 
@@ -29,8 +30,10 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
         while True:
             logging.info(f"Watching {video.title}")
             time.sleep(30)
-            nextVideo = ActionChains(driver).send_keys('n')
-            nextVideo.perform()
+
+            WebDriverWait(driver, 20, 1).until(
+                EC.element_to_be_clickable((By.ID, 'shorts-container'))
+            ).send_keys(Keys.ARROW_DOWN)
     else:
         # Watch for the duration
         while datetime.now() < (start_time + timedelta(minutes=duration)):
