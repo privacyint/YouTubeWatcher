@@ -37,7 +37,7 @@ def main():
             try:
                 # Consent to YouTube's cookies
                 close_cookie_popup(driver)
-                watch_strategy(driver, args.search_terms, args.channel_url, duration=60)
+                watch_strategy(driver, args.search_terms, args.channel_url, duration=0)
             except TimeoutException:
                 logging.warning("Got a timeout. This is probably a CAPTCHA. Exiting.")
                 driver.quit()
