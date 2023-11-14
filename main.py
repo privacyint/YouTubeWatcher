@@ -39,8 +39,9 @@ def main():
                 close_cookie_popup(driver)
                 watch_strategy(driver, args.search_terms, args.channel_url, duration=60)
             except TimeoutException:
-                logging.warning("Probably getting a Captcha because of blocked IP, restarting Docker")
-                pass
+                logging.warning("Got a timeout. This is probably a CAPTCHA. Exiting.")
+                driver.quit()
+                raise
             except Exception as e:
                 logging.error(repr(e))
                 pass
