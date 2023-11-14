@@ -12,6 +12,8 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     for a duration in minutes."""
 
     start_time = datetime.now()
+    logging.info(f"Starting @ {start_time}")
+
     # Watch for the duration
     while datetime.now() < (start_time + timedelta(minutes=duration)):
         video = video_chooser(driver, search_terms, channel_url)
