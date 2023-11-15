@@ -5,7 +5,7 @@ from argparse import ArgumentError
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 
-from src.firefox import get_current_ip
+from src.firefox import get_current_ip, get_firefox_options
 from src.watch_strategy import watch_strategy
 from src.youtube_shorts import close_cookie_popup
 
@@ -49,16 +49,6 @@ def main():
         # Make sure the driver doesn't leak no matter what
         driver.quit()
         raise
-
-
-def get_firefox_options() -> webdriver.FirefoxOptions:
-    """Configure firefox for automated watching"""
-    firefox_options = webdriver.FirefoxOptions()
-    firefox_options.set_preference("intl.accept_languages", "en-us")
-    # Always autoplay videos
-    firefox_options.set_preference("media.autoplay.default", 0)
-    firefox_options.set_preference("media.volume_scale", "0.0")
-    return firefox_options
 
 
 def get_arg_parser() -> argparse.ArgumentParser:
