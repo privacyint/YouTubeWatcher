@@ -1,15 +1,10 @@
 import logging
 import random
-import time
 from datetime import datetime, timedelta
 
-from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
-from src.youtube_shorts import do_search, get_channel_videos
+from src.youtube_shorts import do_search, get_channel_videos, watch_wait_next
 
 
 def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, duration: int = 60):
@@ -28,21 +23,13 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
         logging.info(f"Watching until the heat death of the universe")
 
         while True:
-            logging.info(f"Watching {driver.title} - {driver.current_url}")
-            time.sleep(30)
-
-            WebDriverWait(driver, 20, 1).until(
-                EC.element_to_be_clickable((By.ID, 'shorts-container'))
-            ).send_keys(Keys.ARROW_DOWN)
+            watch_wait_next(driver=driver)
     else:
         # Watch for the duration
-        while datetime.now() < (start_time + timedelta(minutes=duration)):
-            logging.info(f"Watching {driver.title} - {driver.current_url}")
-            time.sleep(30)
+        logging.info(f"Watching for {duration} minutes")
 
-            WebDriverWait(driver, 20, 1).until(
-                EC.element_to_be_clickable((By.ID, 'shorts-container'))
-            ).send_keys(Keys.ARROW_DOWN)
+        while datetime.now() < (start_time + timedelta(minutes=duration)):
+            watch_wait_next(driver=driver)
 
 
 def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):

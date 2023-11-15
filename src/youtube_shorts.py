@@ -2,7 +2,7 @@ import logging
 import time
 from typing import List
 
-from selenium import webdriver
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -32,6 +32,19 @@ def is_livestream(video_element: WebElement) -> bool:
         return badge.get_attribute("innerText") == "LIVE NOW"
     except:
         return False
+
+
+def watch_wait_next(driver: WebDriver, wait: int=30):
+    logging.info(f"Watching {driver.title} - {driver.current_url}")
+
+    logging.info(f"Sleeping for {wait} seconds")
+    time.sleep(wait)
+
+    WebDriverWait(driver, 20, 1).until(
+        EC.element_to_be_clickable((By.ID, 'shorts-container'))
+    ).send_keys(Keys.ARROW_DOWN)
+
+    time.sleep(2)
 
 
 def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement]:
