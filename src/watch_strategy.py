@@ -37,10 +37,12 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     else:
         # Watch for the duration
         while datetime.now() < (start_time + timedelta(minutes=duration)):
-            logging.info(f"Watching {video.title}")
-            # Watch the video
-            driver.get(video.url)
-            watch_current_video(driver)
+            logging.info(f"Watching {driver.title} - {driver.current_url}")
+            time.sleep(30)
+
+            WebDriverWait(driver, 20, 1).until(
+                EC.element_to_be_clickable((By.ID, 'shorts-container'))
+            ).send_keys(Keys.ARROW_DOWN)
 
 
 def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):
