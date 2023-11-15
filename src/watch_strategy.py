@@ -9,7 +9,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from src.youtube_shorts import do_search, get_channel_videos, watch_current_video
+from src.youtube_shorts import do_search, get_channel_videos
 
 
 def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, duration: int = 60):

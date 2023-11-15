@@ -12,63 +12,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from src.video_element import ClickableVideoElement
 
 
-def watch_current_video(driver: WebDriver, max_time: int = 60) -> None:
-    """Watches the YouTube short video on the currently selected page.
-    Arguments:
-    driver - The webdriver, it has to be navigated to a YouTube video before calling this function.
-    with_progress - If true, periodically print the watch progress.
-    max_time - Maximum time spent watching this video before aborting.
-    """
-
-    # Wait for YouTube to finish loading the player
-    player_div = WebDriverWait(driver, 20, 1).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "span.ytp-large-play-button"))
-    )
-    player_div.click()
-    start_time = time.time()
-    logging.info("Started watching")
-    current_time_elem = driver.find_element(By.CSS_SELECTOR, "span.ytp-time-current")
-    duration_time_elem = driver.find_element(By.CSS_SELECTOR, "span.ytp-time-duration")
-
-    # The watch next video button gets created later I guess ¯\_(ツ)_/¯
-    up_next_button_elem = None
-
-    # We wiggle the virtual mouse to prevent YouTube from hiding the player controls,
-    # because we read the watched time from there
-    move_to_player = webdriver.ActionChains(driver)
-    move_to_player.move_to_element_with_offset(player_div, 100, 100)
-    wiggle_mouse = webdriver.ActionChains(driver)
-    wiggle_mouse.move_by_offset(10, 0)
-    wiggle_mouse.pause(1)
-    wiggle_mouse.move_by_offset(-10, 0)
-    move_to_player.perform()
-    while True:
-        # The buttom time bar won't update if it is not visible so move the mouse to show it
-        wiggle_mouse.perform()
-        logging.info(
-            f'{current_time_elem.get_attribute("textContent")} of {duration_time_elem.get_attribute("textContent")}'
-        )
-
-        # Resting is important
-        time.sleep(5)
-
-        # If the 'Up next' screen is showing, we are done watching this video
-        try:
-            if up_next_button_elem:
-                if up_next_button_elem.is_displayed():
-                    break
-            else:
-                up_next_button_elem = driver.find_element(By.CLASS_NAME, "ytp-autonav-endscreen-upnext-button")
-        except:
-            # The next button is created lazily, so sometimes its missing
-            logging.warning("No next button found while watching video")
-
-        if (time.time() - start_time) >= max_time:
-            break
-
-    logging.info("finished watching video")
-
-
 def close_cookie_popup(driver: WebDriver) -> None:
     """Closes the annoying cookie modal so we can interact with YouTube"""
     driver.get("https://www.youtube.com/")
