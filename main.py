@@ -20,10 +20,10 @@ def main():
     if args.browser == "docker":
         driver = webdriver.Remote(
             command_executor="http://127.0.0.1:4444/wd/hub",
-            options=get_firefox_config(),
+            options=get_firefox_options(),
         )
     elif args.browser == "firefox":
-        driver = webdriver.Firefox(options=get_firefox_config())
+        driver = webdriver.Firefox(options=get_firefox_options())
     elif args.browser == "chrome":
         driver = webdriver.Chrome()
     else:
@@ -51,7 +51,7 @@ def main():
         raise
 
 
-def get_firefox_config() -> webdriver.FirefoxOptions:
+def get_firefox_options() -> webdriver.FirefoxOptions:
     """Configure firefox for automated watching"""
     firefox_options = webdriver.FirefoxOptions()
     firefox_options.set_preference("intl.accept_languages", "en-us")
