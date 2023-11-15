@@ -7,7 +7,7 @@ from selenium.common.exceptions import TimeoutException
 
 from src.docker_firefox import get_current_ip
 from src.watch_strategy import watch_strategy
-from src.youtube import close_cookie_popup
+from src.youtube_shorts import close_cookie_popup
 
 
 def main():
