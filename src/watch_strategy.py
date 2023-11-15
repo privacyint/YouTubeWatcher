@@ -28,7 +28,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
         logging.info(f"Watching until the heat death of the universe")
 
         while True:
-            logging.info(f"Watching {video.title}")
+            logging.info(f"Watching {driver.title} - {driver.current_url}")
             time.sleep(30)
 
             WebDriverWait(driver, 20, 1).until(
