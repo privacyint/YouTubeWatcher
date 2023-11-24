@@ -35,7 +35,7 @@ def main():
         # Start watching videos
         while True:
             try:
-                # Consent to YouTube's cookies
+                # Reject YouTube's cookies
                 close_cookie_popup(driver)
                 watch_strategy(driver, args.search_terms, args.channel_url, duration=0)
             except TimeoutException:
