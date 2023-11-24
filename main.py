@@ -31,7 +31,13 @@ def main():
 
     try:
         # Log our current ip
-        logging.info(f"Current IP: {get_current_ip(driver)}")
+        ip = get_current_ip(driver)
+        logging.info(f"Current IP: {ip}")
+
+        if ":" not in ip:
+            logging.error(f"We're connecting over IPv4. Quitting.")
+            raise ConnectionError()
+
         # Start watching videos
         while True:
             try:
