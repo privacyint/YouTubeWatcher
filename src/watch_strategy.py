@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.youtube import do_search, get_channel_videos, watch_current_video
+from src.youtube_shorts import do_search, get_channel_videos, watch_wait_next
 
 
 def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, duration: int = 60):
@@ -12,19 +12,33 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     for a duration in minutes."""
 
     start_time = datetime.now()
-    # Watch for the duration
-    while datetime.now() < (start_time + timedelta(minutes=duration)):
-        video_chooser = lambda: random.choice(
-            [
-                # Pick a random video from the channel
-                random.choice(get_channel_videos(driver, channel_url)),
-                # Pick a random video from a random search term
-                random.choice(do_search(driver, random.choice(search_terms))),
-            ]
-        )
+    logging.info(f"Starting @ {start_time}")
 
-        video = video_chooser()
-        logging.info(f"Watching {video.title}")
-        # Watch the video
-        driver.get(video.url)
-        watch_current_video(driver)
+    #Find our starting point, watch the video
+    video = video_chooser(driver, search_terms, channel_url)
+    driver.get(video.url)
+
+    # Not particularly DRY but we can revisit
+    if duration == 0:
+        logging.info(f"Watching until the heat death of the universe")
+
+        while True:
+            watch_wait_next(driver=driver)
+    else:
+        # Watch for the duration
+        logging.info(f"Watching for {duration} minutes")
+
+        while datetime.now() < (start_time + timedelta(minutes=duration)):
+            watch_wait_next(driver=driver)
+
+
+def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):
+    """Return a random video from either the passed channel OR from a randomly chosen search term"""
+    return random.choice(
+        [
+            # Pick a random video from the channel
+            #random.choice(get_channel_videos(driver, channel_url)),
+            # Pick a random video from a random search term
+            random.choice(do_search(driver, random.choice(search_terms))),
+        ]
+    )
