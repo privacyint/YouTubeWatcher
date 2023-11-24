@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
     firefox:
         # Build the dockerfile
@@ -8,6 +8,5 @@ services:
             - /dev/shm:/dev/shm
         # Give the container a fixed name, because we may need to restart it from python
         container_name: firefox
-        # Selenium port we connect to from python
-        ports:
-            - "4444:4444"
+        # Use our host machine's connection so we get IPv6
+        network_mode: 'host'
