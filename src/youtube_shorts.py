@@ -39,7 +39,7 @@ def watch_wait_next(driver: WebDriver, wait: int=30):
 
     time.sleep(wait)
 
-    WebDriverWait(driver, 20, 1).until(
+    WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.ID, 'shorts-container'))
     ).send_keys(Keys.ARROW_DOWN)
 
