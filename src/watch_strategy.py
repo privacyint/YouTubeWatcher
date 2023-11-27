@@ -12,18 +12,33 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     for a duration in minutes."""
 
     start_time = datetime.now()
-    logging.info(f"Starting @ {start_time}")
+    logging.info(f"== Starting run @ {start_time} ==")
 
-    #Find our starting point, watch the video
+    # Find our starting point, watch the video
     video = video_chooser(driver, search_terms, channel_url)
     driver.get(video.url)
 
     # Not particularly DRY but we can revisit
     if duration == 0:
-        logging.info(f"Watching until the heat death of the universe")
+        logging.info(f"== Watching until the heat death of the universe ==")
 
-        while True:
-            watch_wait_next(driver=driver)
+        i = 1
+
+        start_time = datetime.now()  # When we actually start watching videos
+
+        while i > 0:
+            try:
+                watch_wait_next(driver=driver, wait=15)
+                i += 1
+
+            except:
+                watched_duration = datetime.now() - start_time
+                logging.warning(f"== We've watched {i} videos. Timed out waiting for the URL to change ==")
+                logging.info(f"== Watched shorts for ~{round(watched_duration.total_seconds())} seconds, which is "
+                             f"roughly {round(watched_duration.total_seconds() / 60)} minutes. ==")
+                logging.info(f"== Finishing run @ {datetime.now()} ==")
+
+                watch_strategy(driver, search_terms, channel_url, duration)
     else:
         # Watch for the duration
         logging.info(f"Watching for {duration} minutes")
@@ -37,7 +52,7 @@ def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):
     return random.choice(
         [
             # Pick a random video from the channel
-            #random.choice(get_channel_videos(driver, channel_url)),
+            # random.choice(get_channel_videos(driver, channel_url)),
             # Pick a random video from a random search term
             random.choice(do_search(driver, random.choice(search_terms))),
         ]

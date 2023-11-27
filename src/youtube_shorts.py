@@ -34,17 +34,23 @@ def is_livestream(video_element: WebElement) -> bool:
         return False
 
 
-def watch_wait_next(driver: WebDriver, wait: int=30):
-    logging.info(f"Watching {driver.title} - {driver.current_url}")
+def watch_wait_next(driver: WebDriver, wait: int = 30):
+    short_url = driver.current_url.removeprefix("https://www.youtube.com/shorts/")
+    title = driver.title.removesuffix(" - YouTube")
 
-    logging.info(f"Sleeping for {wait} seconds")
+    logging.info(f'"{title}" [{short_url}] - watching for {wait} seconds')
+
     time.sleep(wait)
 
-    WebDriverWait(driver, 20, 1).until(
+    WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.ID, 'shorts-container'))
     ).send_keys(Keys.ARROW_DOWN)
 
-    time.sleep(2)
+    # Wait until the URL changes before exiting
+    WebDriverWait(driver, 20).until(
+        lambda x: short_url not in x.current_url and title not in x.title,  # Wait for the URL & Title to change
+        message="Timed out waiting for the next short url"
+    )
 
 
 def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement]:
@@ -72,7 +78,8 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
         time.sleep(5)
         # Wait for results page to load with a clickable "shorts" filter
         WebDriverWait(driver, 20, 1).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, 'yt-chip-cloud-chip-renderer.yt-chip-cloud-renderer:nth-child(2) > yt-formatted-string:nth-child(1)'))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'yt-chip-cloud-chip-renderer.yt-chip-cloud-renderer:nth'
+                                                         '-child(2) > yt-formatted-string:nth-child(1)'))
         ).click()
     except:
         logging.warning("Couldn't click the shorts filter button")
@@ -126,8 +133,8 @@ def get_video_suggestions(driver: WebDriver, suggestion_count: int = 1) -> List[
         prev_suggestion_count = len(suggestions)
         # Suggestions are not recycled, the total amount of elements is accurate
         suggestions = driver.find_elements(By.CSS_SELECTOR,
-            "ytd-compact-video-renderer.ytd-watch-next-secondary-results-renderer"
-        )
+                                           "ytd-compact-video-renderer.ytd-watch-next-secondary-results-renderer"
+                                           )
 
     # Enough suggestions are displayed, we can collect them
     videos = []
@@ -144,11 +151,11 @@ def get_channel_videos(driver: WebDriver, channel_url: str) -> List[ClickableVid
         # Wait for results page to load
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, "ytd-rich-item-renderer")))
         channel_name = driver.find_element(By.CSS_SELECTOR,
-            "ytd-channel-name.ytd-c4-tabbed-header-renderer > div:nth-child(1) > div:nth-child(1) > "
-            "yt-formatted-string:nth-child(1) "
-        ).text
+                                           "ytd-channel-name.ytd-c4-tabbed-header-renderer > div:nth-child(1) > "
+                                           "div:nth-child(1) > yt-formatted-string:nth-child(1) "
+                                           ).text
         time.sleep(5)
-    # Get all results
+        # Get all results
         video_title_elems = driver.find_elements(By.TAG_NAME, "ytd-rich-item-renderer")
         logging.info(f"Found {len(video_title_elems)} videos on {channel_name}")
         time.sleep(5)
