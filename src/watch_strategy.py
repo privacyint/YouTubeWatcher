@@ -31,7 +31,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
                 watch_wait_next(driver=driver, wait=15)
                 i += 1
 
-            except TimeoutError:
+            except:
                 watched_duration = datetime.now() - start_time
                 logging.warning(f"== We've watched {i} videos. Timed out waiting for the URL to change ==")
                 logging.info(f"== Watched shorts for ~{round(watched_duration.total_seconds())} seconds, which is "
