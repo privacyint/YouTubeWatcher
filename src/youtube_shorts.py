@@ -46,7 +46,11 @@ def watch_wait_next(driver: WebDriver, wait: int = 30):
         EC.element_to_be_clickable((By.ID, 'shorts-container'))
     ).send_keys(Keys.ARROW_DOWN)
 
-    time.sleep(5)
+    # Wait until the URL changes before exiting
+    WebDriverWait(driver, 20).until(
+        lambda x: short_url not in x.current_url and title not in x.title,  # Wait for the URL & Title to change
+        message="Timed out waiting for the next short url"
+    )
 
 
 def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement]:
