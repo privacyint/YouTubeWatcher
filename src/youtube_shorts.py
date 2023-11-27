@@ -35,9 +35,8 @@ def is_livestream(video_element: WebElement) -> bool:
 
 
 def watch_wait_next(driver: WebDriver, wait: int=30):
-    logging.info(f"Watching {driver.title} - {driver.current_url}")
+    logging.info(f"Watching {driver.title} - {driver.current_url} for {wait} seconds")
 
-    logging.info(f"Sleeping for {wait} seconds")
     time.sleep(wait)
 
     WebDriverWait(driver, 20, 1).until(
