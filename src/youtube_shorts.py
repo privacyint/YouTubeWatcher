@@ -71,7 +71,8 @@ def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement
         time.sleep(5)
         # Wait for results page to load with a clickable "shorts" filter
         WebDriverWait(driver, 20, 1).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, 'yt-chip-cloud-chip-renderer.yt-chip-cloud-renderer:nth-child(2) > yt-formatted-string:nth-child(1)'))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, 'yt-chip-cloud-chip-renderer.yt-chip-cloud-renderer:nth'
+                                                         '-child(2) > yt-formatted-string:nth-child(1)'))
         ).click()
     except:
         logging.warning("Couldn't click the shorts filter button")
@@ -125,8 +126,8 @@ def get_video_suggestions(driver: WebDriver, suggestion_count: int = 1) -> List[
         prev_suggestion_count = len(suggestions)
         # Suggestions are not recycled, the total amount of elements is accurate
         suggestions = driver.find_elements(By.CSS_SELECTOR,
-            "ytd-compact-video-renderer.ytd-watch-next-secondary-results-renderer"
-        )
+                                           "ytd-compact-video-renderer.ytd-watch-next-secondary-results-renderer"
+                                           )
 
     # Enough suggestions are displayed, we can collect them
     videos = []
@@ -143,11 +144,11 @@ def get_channel_videos(driver: WebDriver, channel_url: str) -> List[ClickableVid
         # Wait for results page to load
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.TAG_NAME, "ytd-rich-item-renderer")))
         channel_name = driver.find_element(By.CSS_SELECTOR,
-            "ytd-channel-name.ytd-c4-tabbed-header-renderer > div:nth-child(1) > div:nth-child(1) > "
-            "yt-formatted-string:nth-child(1) "
-        ).text
+                                           "ytd-channel-name.ytd-c4-tabbed-header-renderer > div:nth-child(1) > "
+                                           "div:nth-child(1) > yt-formatted-string:nth-child(1) "
+                                           ).text
         time.sleep(5)
-    # Get all results
+        # Get all results
         video_title_elems = driver.find_elements(By.TAG_NAME, "ytd-rich-item-renderer")
         logging.info(f"Found {len(video_title_elems)} videos on {channel_name}")
         time.sleep(5)

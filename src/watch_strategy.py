@@ -14,7 +14,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     start_time = datetime.now()
     logging.info(f"Starting @ {start_time}")
 
-    #Find our starting point, watch the video
+    # Find our starting point, watch the video
     video = video_chooser(driver, search_terms, channel_url)
     driver.get(video.url)
 
@@ -52,7 +52,7 @@ def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):
     return random.choice(
         [
             # Pick a random video from the channel
-            #random.choice(get_channel_videos(driver, channel_url)),
+            # random.choice(get_channel_videos(driver, channel_url)),
             # Pick a random video from a random search term
             random.choice(do_search(driver, random.choice(search_terms))),
         ]
