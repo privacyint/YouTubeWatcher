@@ -43,7 +43,7 @@ def watch_wait_next(driver: WebDriver, wait: int=30):
         EC.element_to_be_clickable((By.ID, 'shorts-container'))
     ).send_keys(Keys.ARROW_DOWN)
 
-    time.sleep(2)
+    time.sleep(5)
 
 
 def do_search(driver: WebDriver, search_term: str) -> List[ClickableVideoElement]:
