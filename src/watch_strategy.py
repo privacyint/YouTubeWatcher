@@ -22,8 +22,20 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     if duration == 0:
         logging.info(f"Watching until the heat death of the universe")
 
-        while True:
-            watch_wait_next(driver=driver)
+        i = 1
+
+        while i > 0:
+            last_watched = driver.current_url
+            watch_wait_next(driver=driver, wait=15)
+            next_up = driver.current_url
+
+            if last_watched == next_up:
+                logging.warning(f"We've watched {i} videos. Next video {next_up} appears to be the same as we've just watched ({last_watched})")
+                video = video_chooser(driver, search_terms, channel_url)
+                driver.get(video.url)
+                i = 1
+            else:
+                i += 1
     else:
         # Watch for the duration
         logging.info(f"Watching for {duration} minutes")
