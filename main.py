@@ -12,6 +12,7 @@ from src.youtube_shorts import close_cookie_popup
 
 def main():
     logging.getLogger().setLevel(logging.INFO)
+    logging.basicConfig(filename='yt-shorts.log', encoding='utf-8', level=logging.DEBUG)  # Defaults to append
 
     # Setup Selenium web driver
     parser = get_arg_parser()
