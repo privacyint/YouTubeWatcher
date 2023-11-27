@@ -31,9 +31,12 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
 
             if last_watched == next_up:
                 logging.warning(f"We've watched {i} videos. Next video {next_up} appears to be the same as we've just watched ({last_watched})")
+                duration = datetime.now() - start_time
+                logging.info(f"Watched shorts for {duration.total_seconds()} seconds.")
                 video = video_chooser(driver, search_terms, channel_url)
                 driver.get(video.url)
                 i = 1
+                start_time = datetime.now()
             else:
                 i += 1
     else:
