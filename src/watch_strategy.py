@@ -24,6 +24,8 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
 
         i = 1
 
+        start_time = datetime.now()  # When we actually start watching videos
+
         while i > 0:
             try:
                 watch_wait_next(driver=driver, wait=15)
