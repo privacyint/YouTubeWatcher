@@ -34,8 +34,11 @@ def is_livestream(video_element: WebElement) -> bool:
         return False
 
 
-def watch_wait_next(driver: WebDriver, wait: int=30):
-    logging.info(f"Watching {driver.title} - {driver.current_url} for {wait} seconds")
+def watch_wait_next(driver: WebDriver, wait: int = 30):
+    short_url = driver.current_url.removeprefix("https://www.youtube.com/shorts/")
+    title = driver.title.removesuffix(" - YouTube")
+
+    logging.info(f'"{title}" [{short_url}] - watching for {wait} seconds')
 
     time.sleep(wait)
 
