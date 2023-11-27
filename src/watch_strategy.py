@@ -12,7 +12,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     for a duration in minutes."""
 
     start_time = datetime.now()
-    logging.info(f"Starting @ {start_time}")
+    logging.info(f"== Starting run @ {start_time} ==")
 
     # Find our starting point, watch the video
     video = video_chooser(driver, search_terms, channel_url)
@@ -20,7 +20,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
 
     # Not particularly DRY but we can revisit
     if duration == 0:
-        logging.info(f"Watching until the heat death of the universe")
+        logging.info(f"== Watching until the heat death of the universe ==")
 
         i = 1
 
