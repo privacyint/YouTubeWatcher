@@ -25,20 +25,18 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
         i = 1
 
         while i > 0:
-            last_watched = driver.current_url
-            watch_wait_next(driver=driver, wait=15)
-            next_up = driver.current_url
-
-            if last_watched == next_up:
-                logging.warning(f"We've watched {i} videos. Next video {next_up} appears to be the same as we've just watched ({last_watched})")
-                duration = datetime.now() - start_time
-                logging.info(f"Watched shorts for {duration.total_seconds()} seconds.")
-                video = video_chooser(driver, search_terms, channel_url)
-                driver.get(video.url)
-                i = 1
-                start_time = datetime.now()
-            else:
+            try:
+                watch_wait_next(driver=driver, wait=15)
                 i += 1
+
+            except TimeoutError:
+                watched_duration = datetime.now() - start_time
+                logging.warning(f"== We've watched {i} videos. Timed out waiting for the URL to change ==")
+                logging.info(f"== Watched shorts for ~{round(watched_duration.total_seconds())} seconds, which is "
+                             f"roughly {round(watched_duration.total_seconds() / 60)} minutes. ==")
+                logging.info(f"== Finishing run @ {datetime.now()} ==")
+
+                watch_strategy(driver, search_terms, channel_url, duration)
     else:
         # Watch for the duration
         logging.info(f"Watching for {duration} minutes")
