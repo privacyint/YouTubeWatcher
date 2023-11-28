@@ -39,7 +39,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
                              f"roughly {round(watched_duration.total_seconds() / 60)} minutes. ==")
                 logging.info(f"== Finishing run @ {datetime.now()} ==")
 
-                driver.get_screenshot_as_file(f"looped_screenshots/{driver.current_url}-{datetime.now()}")
+                driver.get_screenshot_as_file(f"looped_screenshots/{driver.current_url}-{datetime.now()}.png")
 
                 watch_strategy(driver, search_terms, channel_url, duration)
     else:
