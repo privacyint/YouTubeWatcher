@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.youtube_shorts import do_search, get_channel_videos, watch_wait_next
+from src.youtube_shorts import do_search, get_channel_videos, watch_current_video_then_move_to_next
 
 
 def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, duration: int = 60):
@@ -28,7 +28,8 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
 
         while i > 0:
             try:
-                watch_wait_next(driver=driver, wait=15)
+                watch_current_video_then_move_to_next(driver=driver, watch_for_seconds=5)
+
                 i += 1
 
             except:
@@ -38,13 +39,15 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
                              f"roughly {round(watched_duration.total_seconds() / 60)} minutes. ==")
                 logging.info(f"== Finishing run @ {datetime.now()} ==")
 
+                driver.get_screenshot_as_file(f"looped_screenshots/{driver.current_url}-{datetime.now()}.png")
+
                 watch_strategy(driver, search_terms, channel_url, duration)
     else:
         # Watch for the duration
         logging.info(f"Watching for {duration} minutes")
 
         while datetime.now() < (start_time + timedelta(minutes=duration)):
-            watch_wait_next(driver=driver)
+            watch_current_video_then_move_to_next(driver=driver)
 
 
 def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):
