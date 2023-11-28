@@ -2,6 +2,7 @@ import argparse
 import logging
 import sys
 from argparse import ArgumentError
+from datetime import datetime
 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
@@ -13,7 +14,7 @@ from src.youtube_shorts import close_cookie_popup
 
 def main():
     logging.getLogger().setLevel(logging.INFO)
-    logging.basicConfig(filename='yt-shorts.log', encoding='utf-8')  # Defaults to append
+    logging.basicConfig(filename=f'yt-shorts-{datetime.now()}.log', encoding='utf-8')
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))  # We also want it to stdout
 
     # Setup Selenium web driver
