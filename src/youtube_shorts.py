@@ -34,13 +34,14 @@ def is_livestream(video_element: WebElement) -> bool:
         return False
 
 
-def watch_wait_next(driver: WebDriver, wait: int = 30):
-    short_url = driver.current_url.removeprefix("https://www.youtube.com/shorts/")
-    title = driver.title.removesuffix(" - YouTube")
+def watch_current_video_then_move_to_next(driver: WebDriver, watch_for_seconds: float = 3):
+    currently_watching_short_url = driver.current_url.removeprefix("https://www.youtube.com/shorts/")
+    currently_watching_title = driver.title.removesuffix(" - YouTube")
 
-    logging.info(f'"{title}" [{short_url}] - watching for {wait} seconds')
+    logging.info(f'"{currently_watching_title}" [{currently_watching_short_url}] - watching for {watch_for_seconds}'
+                 f' seconds')
 
-    time.sleep(wait)
+    time.sleep(watch_for_seconds)
 
     WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.ID, 'shorts-container'))
