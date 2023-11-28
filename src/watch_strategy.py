@@ -28,7 +28,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
 
         while i > 0:
             try:
-                watch_current_video_then_move_to_next(driver=driver, watch_for_seconds=15)
+                watch_current_video_then_move_to_next(driver=driver, watch_for_seconds=0.1)
 
                 i += 1
 
