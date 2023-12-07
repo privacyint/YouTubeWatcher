@@ -32,15 +32,9 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
 
                 i += 1
 
-            except:
+            except Exception as e:
                 watched_duration = datetime.now() - start_time
-                logging.warning(f"== We've watched {i} videos. Timed out waiting for the URL to change ==")
-                logging.info(f"== Watched shorts for ~{round(watched_duration.total_seconds())} seconds, which is "
-                             f"roughly {round(watched_duration.total_seconds() / 60)} minutes. ==")
-                logging.info(f"== Finishing run @ {datetime.now()} ==")
-
-                driver.get_screenshot_as_file(f"looped_screenshots/{driver.current_url}-{datetime.now()}.png")
-
+                exception_parser(e, watched_duration, i, driver)
                 watch_strategy(driver, search_terms, channel_url, duration)
     else:
         # Watch for the duration
@@ -48,6 +42,15 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
 
         while datetime.now() < (start_time + timedelta(minutes=duration)):
             watch_current_video_then_move_to_next(driver=driver)
+
+
+def exception_parser(e, watched_duration, number_of_videos_watched, driver):
+    logging.warning(f"== Watched {number_of_videos_watched} videos for ~{round(watched_duration.total_seconds())} "
+                    f"seconds, which is roughly {round(watched_duration.total_seconds() / 60)} minutes. ==")
+    logging.error(f"== Caught exception: {e} ==")
+    logging.info(f"== Finishing run @ {datetime.now()} ==")
+
+    driver.get_screenshot_as_file(f"looped_screenshots/{driver.current_url}-{datetime.now()}.png")
 
 
 def video_chooser(driver: WebDriver, search_terms: list, channel_url: str):
