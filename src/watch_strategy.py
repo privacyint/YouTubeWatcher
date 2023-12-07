@@ -38,7 +38,7 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
                 watch_strategy(driver, search_terms, channel_url, duration)
     else:
         # Watch for the duration
-        logging.info(f"Watching for {duration} minutes")
+        logging.info(f"== Watching for {duration} minutes ==")
 
         while datetime.now() < (start_time + timedelta(minutes=duration)):
             try:
