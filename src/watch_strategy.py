@@ -18,13 +18,13 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
     video = video_chooser(driver, search_terms, channel_url)
     driver.get(video.url)
 
+    i = 1
+
+    start_time = datetime.now()  # When we actually start watching videos
+
     # Not particularly DRY but we can revisit
     if duration == 0:
         logging.info(f"== Watching until the heat death of the universe ==")
-
-        i = 1
-
-        start_time = datetime.now()  # When we actually start watching videos
 
         while i > 0:
             try:
@@ -41,7 +41,14 @@ def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, dura
         logging.info(f"Watching for {duration} minutes")
 
         while datetime.now() < (start_time + timedelta(minutes=duration)):
-            watch_current_video_then_move_to_next(driver=driver)
+            try:
+                watch_current_video_then_move_to_next(driver=driver)
+
+                i += 1
+
+            except Exception as e:
+                watched_duration = datetime.now() - start_time
+                exception_parser(e, watched_duration, i, driver)
 
 
 def exception_parser(e, watched_duration, number_of_videos_watched, driver):
