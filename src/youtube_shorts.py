@@ -38,8 +38,7 @@ def watch_current_video_then_move_to_next(driver: WebDriver, watch_for_seconds: 
     currently_watching_short_url = driver.current_url.removeprefix("https://www.youtube.com/shorts/")
     currently_watching_title = driver.title.removesuffix(" - YouTube")
 
-    logging.info(f'"{currently_watching_title}" [{currently_watching_short_url}] - watching for {watch_for_seconds}'
-                 f' seconds')
+    logging.info(f'[{currently_watching_short_url}] - watching for {watch_for_seconds} seconds')
 
     time.sleep(watch_for_seconds)
 
