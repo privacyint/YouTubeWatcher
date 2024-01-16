@@ -33,7 +33,7 @@ def main():
     elif args.browser == "edge":
         driver = webdriver.Edge(options=get_edge_options())
     else:
-        raise ArgumentError(message="Unknown driver.", argument=None)
+        raise ArgumentError(message=f"Unknown driver '{args.browser}'", argument=args.browser)
 
     try:
         # Log our current ip
