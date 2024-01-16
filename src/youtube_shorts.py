@@ -2,7 +2,7 @@ import logging
 import time
 from typing import List
 
-from selenium.webdriver import Keys
+from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -50,9 +50,9 @@ def watch_current_video_then_move_to_next(driver: WebDriver, watch_for_seconds: 
 
     time.sleep(watch_for_seconds)
 
-    WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.ID, 'shorts-container'))
-    ).send_keys(Keys.ARROW_DOWN)
+    actions = ActionChains(driver)
+    actions.send_keys(Keys.ARROW_DOWN)
+    actions.perform()
 
     # Wait until the URL changes
     WebDriverWait(driver, 20).until(
