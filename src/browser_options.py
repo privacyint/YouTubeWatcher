@@ -11,3 +11,10 @@ def get_firefox_options() -> webdriver.FirefoxOptions:
 
     return firefox_options
 
+
+def get_chrome_options() -> webdriver.ChromeOptions:
+    """Configure chromium for automated watching"""
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = "/usr/local/bin/chromium"
+
+    return chrome_options
