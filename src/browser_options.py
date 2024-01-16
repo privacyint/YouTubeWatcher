@@ -12,6 +12,13 @@ def get_firefox_options() -> webdriver.FirefoxOptions:
     return firefox_options
 
 
+def get_edge_options() -> webdriver.EdgeOptions:
+    """Configure Edge for automated watching"""
+    edge_options = webdriver.EdgeOptions()
+
+    return edge_options
+
+
 def get_chrome_options() -> webdriver.ChromeOptions:
     """Configure chromium for automated watching"""
     chrome_options = webdriver.ChromeOptions()

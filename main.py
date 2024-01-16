@@ -30,6 +30,8 @@ def main():
         driver = webdriver.Firefox(options=get_firefox_options())
     elif args.browser == "chrome":
         driver = webdriver.Chrome(options=get_chrome_options())
+    elif args.browser == "edge":
+        driver = webdriver.Edge(options=get_edge_options())
     else:
         raise ArgumentError(message="Unknown driver.", argument=None)
 
@@ -66,7 +68,7 @@ def get_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-B",
         "--browser",
-        choices=["docker", "chrome", "firefox"],
+        choices=["docker", "chrome", "firefox", "edge"],
         default="docker",
         type=str,
         help="Select the driver/browser to use for executing the script.",
