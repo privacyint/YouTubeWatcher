@@ -8,6 +8,7 @@ def get_firefox_options() -> webdriver.FirefoxOptions:
     # Always autoplay videos
     firefox_options.set_preference("media.autoplay.default", 0)
     firefox_options.set_preference("media.volume_scale", "0.0")
+    firefox_options.add_argument("-safe-mode")
 
     return firefox_options
 
