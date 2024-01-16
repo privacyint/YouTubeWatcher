@@ -2,9 +2,16 @@ import logging
 import random
 from datetime import datetime, timedelta
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
 from src.youtube_shorts import do_search, get_channel_videos, watch_current_video_then_move_to_next
+
+
+def get_current_ip(driver: WebDriver) -> str:
+    """Get the browser's current ip by visiting myip.com"""
+    driver.get("https://myip.com")
+    return driver.find_element(By.CSS_SELECTOR, "#ip").text
 
 
 def watch_strategy(driver: WebDriver, search_terms: list, channel_url: str, duration: int = 60):
