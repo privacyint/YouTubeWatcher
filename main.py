@@ -7,7 +7,7 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 
-from src.browser_options import get_firefox_options, get_chrome_options
+from src.browser_options import get_firefox_options, get_chrome_options, get_edge_options
 from src.watch_strategy import watch_strategy, get_current_ip
 from src.youtube_shorts import close_cookie_popup
 
