@@ -48,42 +48,33 @@ Searches YouTube, queries recommended videos and watches them. All fully automat
 This project requires [Poetry](https://python-poetry.org/) to install the required dependencies.
 Check out [this link](https://python-poetry.org/docs/) to install Poetry on your operating system.
 
-Make sure you have installed [Python](https://www.python.org/downloads/) 3.8! Otherwise Step 3 will let you know that you have no compatible Python version installed.
+Make sure you have installed [Python](https://www.python.org/downloads/) 3.8 or later! Otherwise Step 3 will let you know that you have no compatible Python version installed.
 
 1. Clone/Download this repository
 2. Navigate to the root of the repository
 3. Run ```poetry install``` to create a virtual environment with Poetry
 4. Either run the dockerized Browser with `docker-compose up`, install [geckodriver](https://github.com/mozilla/geckodriver/releases) for a local Firefox or [ChromeDriver](https://chromedriver.chromium.org/downloads) for Chromium. Ensure that geckodriver/ChromeDriver are in a location in your `$PATH`.
-5. Run ```poetry run python main.py``` to run the program. Alternatively you can run ```poetry shell``` followed by ```python main.py```. By default this connects to the dockerized Browser. To automate a different Browser use the `--browser [chrome/firefox]` command line option.
+5. Run ```poetry run python main.py``` to run the program. Alternatively you can run ```poetry shell``` followed by ```python main.py```. By default this connects to the dockerized Browser. To automate a different Browser use the `--browser [chrome/firefox/edge]` command line option.
 
-### Dockerized Firefox Browser
+### Dockerized Edge Browser
 
 Running the Container requires [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/).
 
 1. Clone/Download this repository
 2. Navigate to the root of the repository
 3. Run `docker-compose up`. The image will be built automatically before startup.
-4. Selenium can now connect to the browser via port 4444. In Python the connection can be established with the following command.
-
-    ``` python
-    driver = webdriver.Remote(
-        command_executor="http://127.0.0.1:4444/wd/hub",
-        desired_capabilities=options,
-    )
-    ```
-
-    See `main.py` for more information.
+4. Our project can now connect to the browser.
 
 ## Run Parameters
 All of these parameters are optional and a default value will be used if they are not defined. 
 You can also get these definitions by running ```main.py --help```
 
 ```
-usage: main.py [-h] [-B {docker,chrome,firefox}] [-t] [--disable-tor] -s SEARCH_TERMS [-c CHANNEL_URL]
+usage: main.py [-h] [-B {docker,chrome,firefox,edge}] -s SEARCH_TERMS [-c CHANNEL_URL]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -B {docker,chrome,firefox}, --browser {docker,chrome,firefox}
+  -B {docker,chrome,firefox,edge}, --browser {docker,chrome,firefox,edge}
                         Select the driver/browser to use for executing the script.
   -s SEARCH_TERMS, --search-terms SEARCH_TERMS
                         This argument declares a list of search terms which get viewed.
