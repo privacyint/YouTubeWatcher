@@ -18,7 +18,12 @@ def main():
     # Setup Selenium web driver
     parser = get_arg_parser()
     args = parser.parse_args()
-    driver = get_browser_driver(args.browser)
+
+    try:
+        driver = get_browser_driver(args)
+    except AttributeError:
+        logging.error(f"Couldn't launch {args.browser}. Please make sure it's installed!")
+        raise FileNotFoundError
 
     try:
         # Log our current ip
@@ -57,6 +62,13 @@ def get_arg_parser() -> argparse.ArgumentParser:
         default="edge",
         type=str,
         help="Select the driver/browser to use for executing the script.",
+    )
+    parser.add_argument(
+        "-H",
+        "--headless",
+        dest="headless",
+        action="store_true",
+        help="Pass this to run the browser without showing the browser window"
     )
     parser.add_argument(
         "-s",

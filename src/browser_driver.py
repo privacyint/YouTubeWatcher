@@ -1,4 +1,4 @@
-from argparse import ArgumentError
+from argparse import ArgumentError, Namespace
 
 from selenium import webdriver
 # MS Edge driver
@@ -15,14 +15,16 @@ from webdriver_manager.core.os_manager import ChromeType
 from src.browser_options import get_firefox_options, get_chromium_options, get_edge_options
 
 
-def get_browser_driver(browser: str) -> webdriver:
+def get_browser_driver(args: Namespace) -> webdriver:
+    """ Downloads the required driver software - if needed - and returns the correct webdriver based on {browser} """
+    match args.browser:
         case "firefox":
             return (
                 webdriver.Firefox(
                     service=FirefoxService(
                         GeckoDriverManager().install(),
                     ),
-                    options=get_firefox_options(),
+                    options=get_firefox_options(args.headless),
                 )
             )
         case "chromium":
@@ -34,7 +36,7 @@ def get_browser_driver(browser: str) -> webdriver:
                         )
                         .install(),
                     ),
-                    options=get_chromium_options(),
+                    options=get_chromium_options(args.headless),
                 )
             )
         case "edge":
@@ -43,11 +45,11 @@ def get_browser_driver(browser: str) -> webdriver:
                     service=EdgeService(
                         EdgeChromiumDriverManager().install(),
                     ),
-                    options=get_edge_options(),
+                    options=get_edge_options(args.headless),
                 )
             )
         case _:
             raise ArgumentError(
-                message=f"Unknown driver '{browser}'",
-                argument=browser,
+                message=f"Unknown driver '{args.browser}'",
+                argument=None,
             )
