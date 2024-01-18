@@ -27,8 +27,7 @@ def get_browser_driver(browser: str) -> webdriver:
         case "firefox":
             return (
                 webdriver.Firefox(
-                    service=
-                    FirefoxService(
+                    service=FirefoxService(
                         GeckoDriverManager().install(),
                     ),
                     options=get_firefox_options(),
@@ -37,8 +36,7 @@ def get_browser_driver(browser: str) -> webdriver:
         case "chrome":
             return (
                 webdriver.Chrome(
-                    service=
-                    ChromiumService(
+                    service=ChromiumService(
                         ChromeDriverManager(
                             chrome_type=ChromeType.CHROMIUM,
                         )
@@ -50,8 +48,7 @@ def get_browser_driver(browser: str) -> webdriver:
         case "edge":
             return (
                 webdriver.Edge(
-                    service=
-                    EdgeService(
+                    service=EdgeService(
                         EdgeChromiumDriverManager().install(),
                     ),
                     options=get_edge_options(),
