@@ -6,18 +6,16 @@
     <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
     <br />
     <a href="https://www.youtube.com/channel/UCqq27nknJ3fe5IvrAbfuEwQ"><img src="https://img.shields.io/badge/YouTube-FF0000.svg?style=flat&logo=youtube" alt="Platform: YouTube"></a>
-        <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-2496ED.svg?logo=Docker&logoColor=white" alt="Uses Docker"></a>
         <a href="https://www.selenium.dev/documentation/en/"><img src="https://img.shields.io/badge/Selenium-43B02A.svg?logo=Selenium&logoColor=white&labelColor=43B02A" alt="Automation supporting Firefox and Chrome"></a>
     <br />
-         <a href="https://www.torproject.org/"><img src="https://img.shields.io/badge/Tor-7E4798.svg?logo=Tor-Project&logoColor=white" alt="Uses Tor. And an emoji of an onion, get it?"></a>
          <a href="https://www.mozilla.org/en-US/firefox/new/"><img src="https://img.shields.io/badge/Firefox-FF7139.svg?logo=Firefox-Browser&logoColor=white" alt="Firefox supported"></a>
          <a href="https://www.google.com/chrome/"><img src="https://img.shields.io/badge/Chrome-4285F4.svg?logo=Google-Chrome&logoColor=white" alt="Chrome supported"></a>
     <br />
     <br />
-    <i>An automated, headless YouTube Watcher and Scraper</i>
+    <i>An automated, headless YouTube Shorts Watcher and Scraper</i>
     <br />
 <br />
-    <i><b>Authors</b>:
+    <i><b>Original Authors</b>:
         <a href="https://github.com/ChristianCoenen">Christian C.</a>,
         <a href="https://github.com/MorMund">Moritz M.</a>,
         <a href="https://github.com/lucaSchilling">Luca S. </a>
@@ -39,7 +37,7 @@
 
 ## About
 
-Searches YouTube, queries recommended videos and watches them. All fully automated. The project consists of two independently usable components, the YouTube automation written in Python and the dockerized Firefox Browser.
+Searches YouTube shorts, queries recommended videos and watches them. All fully automated.
 
 ## Setup
 
@@ -53,17 +51,8 @@ Make sure you have installed [Python](https://www.python.org/downloads/) 3.8 or 
 1. Clone/Download this repository
 2. Navigate to the root of the repository
 3. Run ```poetry install``` to create a virtual environment with Poetry
-4. Either run the dockerized Browser with `docker-compose up`, install [geckodriver](https://github.com/mozilla/geckodriver/releases) for a local Firefox or [ChromeDriver](https://chromedriver.chromium.org/downloads) for Chromium. Ensure that geckodriver/ChromeDriver are in a location in your `$PATH`.
-5. Run ```poetry run python main.py``` to run the program. Alternatively you can run ```poetry shell``` followed by ```python main.py```. By default this connects to the dockerized Browser. To automate a different Browser use the `--browser [chrome/firefox/edge]` command line option.
-
-### Dockerized Edge Browser
-
-Running the Container requires [Docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/).
-
-1. Clone/Download this repository
-2. Navigate to the root of the repository
-3. Run `docker-compose up`. The image will be built automatically before startup.
-4. Our project can now connect to the browser.
+4. Ensure the browser you wish to use is installed on the machine.
+5. Run ```poetry run python main.py``` to run the program. Alternatively you can run ```poetry shell``` followed by ```python main.py```. By default this connects to MS Edge Browser. To automate a different Browser use the `--browser [chrome/firefox/edge]` command line option.
 
 ## Run Parameters
 All of these parameters are optional and a default value will be used if they are not defined. 
@@ -74,6 +63,7 @@ usage: main.py [-h] [-H] [-B {chromium,firefox,edge}] -s SEARCH_TERMS [-c CHANNE
 
 optional arguments:
   -h, --help            show this help message and exit
+  -H, --headless        run the browser headlessly
   -B {chromium,firefox,edge}, --browser {chromium,firefox,edge}
                         Select the driver/browser to use for executing the script. Defaults to Edge.
   -s SEARCH_TERMS, --search-terms SEARCH_TERMS
