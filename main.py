@@ -53,8 +53,8 @@ def get_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-B",
         "--browser",
-        choices=["docker", "chrome", "firefox", "edge"],
-        default="docker",
+        choices=["chrome", "firefox", "edge"],
+        default="edge",
         type=str,
         help="Select the driver/browser to use for executing the script.",
     )

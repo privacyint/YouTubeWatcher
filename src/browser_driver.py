@@ -16,14 +16,6 @@ from src.browser_options import get_firefox_options, get_chrome_options, get_edg
 
 
 def get_browser_driver(browser: str) -> webdriver:
-    match browser:
-        case "docker":
-            return (
-                webdriver.Remote(
-                    command_executor="http://127.0.0.1:4444/wd/hub",
-                    options=get_edge_options(),
-                )
-            )
         case "firefox":
             return (
                 webdriver.Firefox(
