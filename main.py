@@ -1,13 +1,11 @@
 import argparse
 import logging
 import sys
-from argparse import ArgumentError
 from datetime import datetime
 
-from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 
-from src.browser_options import get_firefox_options, get_chrome_options, get_edge_options
+from src.browser_driver import get_browser_driver
 from src.watch_strategy import watch_strategy, get_current_ip
 from src.youtube_shorts import close_cookie_popup
 
@@ -20,20 +18,7 @@ def main():
     # Setup Selenium web driver
     parser = get_arg_parser()
     args = parser.parse_args()
-
-    if args.browser == "docker":
-        driver = webdriver.Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
-            options=get_firefox_options(),
-        )
-    elif args.browser == "firefox":
-        driver = webdriver.Firefox(options=get_firefox_options())
-    elif args.browser == "chrome":
-        driver = webdriver.Chrome(options=get_chrome_options())
-    elif args.browser == "edge":
-        driver = webdriver.Edge(options=get_edge_options())
-    else:
-        raise ArgumentError(message=f"Unknown driver '{args.browser}'", argument=args.browser)
+    driver = get_browser_driver(args.browser)
 
     try:
         # Log our current ip
