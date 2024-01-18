@@ -2,7 +2,7 @@ import logging
 import time
 from typing import List
 
-from selenium.webdriver import Keys
+from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -38,14 +38,21 @@ def watch_current_video_then_move_to_next(driver: WebDriver, watch_for_seconds: 
     currently_watching_short_url = driver.current_url.removeprefix("https://www.youtube.com/shorts/")
     currently_watching_title = driver.title.removesuffix(" - YouTube")
 
-    logging.info(f'"{currently_watching_title}" [{currently_watching_short_url}] - watching for {watch_for_seconds}'
-                 f' seconds')
+    script = """
+                vids = document.getElementsByClassName('html5-video-player');
+                thumbnails = document.getElementsByClassName('player-container');
+                for (const player of vids) { player.style.visibility = 'hidden'; }
+                for (const thumbnail of thumbnails) { thumbnail.style.visibility = 'hidden'; }
+             """
+    driver.execute_script(script)
+
+    logging.info(f'[{currently_watching_short_url}] - watching for {watch_for_seconds} seconds')
 
     time.sleep(watch_for_seconds)
 
-    WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.ID, 'shorts-container'))
-    ).send_keys(Keys.ARROW_DOWN)
+    actions = ActionChains(driver)
+    actions.send_keys(Keys.ARROW_DOWN)
+    actions.perform()
 
     # Wait until the URL changes
     WebDriverWait(driver, 20).until(

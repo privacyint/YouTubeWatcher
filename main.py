@@ -1,14 +1,12 @@
 import argparse
 import logging
 import sys
-from argparse import ArgumentError
 from datetime import datetime
 
-from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 
-from src.firefox import get_current_ip, get_firefox_options
-from src.watch_strategy import watch_strategy
+from src.browser_driver import get_browser_driver
+from src.watch_strategy import watch_strategy, get_current_ip
 from src.youtube_shorts import close_cookie_popup
 
 
@@ -21,17 +19,11 @@ def main():
     parser = get_arg_parser()
     args = parser.parse_args()
 
-    if args.browser == "docker":
-        driver = webdriver.Remote(
-            command_executor="http://127.0.0.1:4444/wd/hub",
-            options=get_firefox_options(),
-        )
-    elif args.browser == "firefox":
-        driver = webdriver.Firefox(options=get_firefox_options())
-    elif args.browser == "chrome":
-        driver = webdriver.Chrome()
-    else:
-        raise ArgumentError(message="Unknown driver.", argument=None)
+    try:
+        driver = get_browser_driver(args)
+    except AttributeError:
+        logging.error(f"Couldn't launch {args.browser}. Please make sure it's installed!")
+        raise FileNotFoundError
 
     try:
         # Log our current ip
@@ -66,10 +58,17 @@ def get_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "-B",
         "--browser",
-        choices=["docker", "chrome", "firefox"],
-        default="docker",
+        choices=["chrome", "firefox", "edge"],
+        default="edge",
         type=str,
         help="Select the driver/browser to use for executing the script.",
+    )
+    parser.add_argument(
+        "-H",
+        "--headless",
+        dest="headless",
+        action="store_true",
+        help="Pass this to run the browser without showing the browser window"
     )
     parser.add_argument(
         "-s",
