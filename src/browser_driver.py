@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.service import Service as ChromiumService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
 
-from src.browser_options import get_firefox_options, get_chrome_options, get_edge_options
+from src.browser_options import get_firefox_options, get_chromium_options, get_edge_options
 
 
 def get_browser_driver(browser: str) -> webdriver:
@@ -25,7 +25,7 @@ def get_browser_driver(browser: str) -> webdriver:
                     options=get_firefox_options(),
                 )
             )
-        case "chrome":
+        case "chromium":
             return (
                 webdriver.Chrome(
                     service=ChromiumService(
@@ -34,7 +34,7 @@ def get_browser_driver(browser: str) -> webdriver:
                         )
                         .install(),
                     ),
-                    options=get_chrome_options(),
+                    options=get_chromium_options(),
                 )
             )
         case "edge":

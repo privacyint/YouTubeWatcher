@@ -70,12 +70,12 @@ All of these parameters are optional and a default value will be used if they ar
 You can also get these definitions by running ```main.py --help```
 
 ```
-usage: main.py [-h] [-B {docker,chrome,firefox,edge}] -s SEARCH_TERMS [-c CHANNEL_URL]
+usage: main.py [-h] [-H] [-B {chromium,firefox,edge}] -s SEARCH_TERMS [-c CHANNEL_URL]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -B {docker,chrome,firefox,edge}, --browser {docker,chrome,firefox,edge}
-                        Select the driver/browser to use for executing the script.
+  -B {chromium,firefox,edge}, --browser {chromium,firefox,edge}
+                        Select the driver/browser to use for executing the script. Defaults to Edge.
   -s SEARCH_TERMS, --search-terms SEARCH_TERMS
                         This argument declares a list of search terms which get viewed.
   -c CHANNEL_URL, --channel-url CHANNEL_URL

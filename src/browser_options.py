@@ -20,7 +20,7 @@ def get_edge_options() -> webdriver.EdgeOptions:
     return edge_options
 
 
-def get_chrome_options() -> webdriver.ChromeOptions:
+def get_chromium_options() -> webdriver.ChromeOptions:
     """Configure chromium for automated watching"""
     chrome_options = webdriver.ChromeOptions()
     chrome_options.binary_location = "/usr/local/bin/chromium"
